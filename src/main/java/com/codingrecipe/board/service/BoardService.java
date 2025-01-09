@@ -25,5 +25,6 @@ public class BoardService {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
         // 엔티티객체를 dto 객체로 옮겨담는다.? -> dto객체에 적기
+        return null;
     }
 }

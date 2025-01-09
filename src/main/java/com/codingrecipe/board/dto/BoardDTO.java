@@ -30,6 +30,6 @@ public class BoardDTO {
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedTime(boardEntity.getCreatedTime());
-// 7분부터 오류        boardDTO.setBoardUpdatedTime(boardEntity.getUpdatedTime());
         return boardDTO;
     }
+}
