@@ -34,4 +34,34 @@ public class BoardController {
         model.addAttribute("boardList", boardDTOList);
         return "List";
     }
+
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Long id, Model model){
+        // 해당 게시물의 조회수를 하나 올리고
+        // 게시글 데이터를 가져와서 detail.html에 출력하도록 한다.
+        boardService.updateHits(id); // 서비스클래스의 업데이트힛츠를 호출하고
+        BoardDTO boardDTO = boardService.findById(id); // findby객체생성후 dto로 가져오고
+        model.addAttribute("board", boardDTO); // 객체를 board라는 파라미터에 담아서
+        return "detail"; // 디테일로 리턴
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable Long id, Model model){
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("boardUpdate", boardDTO);
+        return "update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardDTO boardDTO, Model model){
+        BoardDTO board = boardService.update(boardDTO);
+        model.addAttribute("board", board);
+        return "detail";
+//        return "redirect:/board/" + boardDTO.getId();
+    }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        boardService.delete(id);
+        return "redirect:/board/";
+    }
 }
