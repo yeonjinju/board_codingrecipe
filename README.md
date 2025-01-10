@@ -15,6 +15,12 @@
    - 서버에서 해당 게시글의 정보를 가지고 수정화면 출력
 5. 글삭제(/board/delete/{id})
 6. 페이징처리(/board/paging)
+   - /board/paging?page=2
+   - /board/paging/2
+   - 게시글이 14개
+     - 한페이지에 5개씩 글을볼때 필요한 페이징 수 -> 3개
+     - 한페이지 3개식 -> 5개 페이지가 됨
+      
 
 ## mysql DataBase 계정 생성 및 권한 부여
 ```
