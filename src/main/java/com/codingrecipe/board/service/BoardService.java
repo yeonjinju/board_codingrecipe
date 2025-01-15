@@ -48,22 +48,18 @@ public class BoardService {
                 6. board_table에 해당 데이터 save 처리하기
                 7. board)file)table에 해당 데이터 save 처리하기
              */
-            MultipartFile boardFile = boardDTO.getBoardFile(); // 1.
-            String originalFilename = boardFile.getOriginalFilename(); // 2.
-            String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 3.
-            String savePath = "/Users/juyeonjin/board_img/" + storedFileName; // 4. C:/springboot_img/9802398403948_내사진.jpg
-            boardFile.transferTo(new File(savePath)); // 5. 예외 떠넘겨서 저장 throws IOE~.
             BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO);
             Long savedId = boardRepository.save(boardEntity).getId(); // getId인 특정 컬럼값을 가져옴 (
             BoardEntity board = boardRepository.findById(savedId).get();
-
-            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
-            boardFileRepository.save(boardFileEntity); // 디비에 저장까지만 한 내용
+            for (MultipartFile boardFile : boardDTO.getBoardFile()) {
+                String originalFilename = boardFile.getOriginalFilename(); // 2.
+                String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 3.
+                String savePath = "/Users/juyeonjin/board_img/" + storedFileName; // 4. C:/springboot_img/9802398403948_내사진.jpg
+                boardFile.transferTo(new File(savePath)); // 5. 예외 떠넘겨서 저장 throws IOE~.
+                BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
+                boardFileRepository.save(boardFileEntity); // 디비에 저장까지만 한 내용
+            }
         }
-
-        // 기존에 파일이 없을때만 사용하는 방식
-//        BoardEntity boardEntity = BoardEntity.toSaveEntity(boardDTO);
-//        boardRepository.save(boardEntity);
     }
 
     @Transactional

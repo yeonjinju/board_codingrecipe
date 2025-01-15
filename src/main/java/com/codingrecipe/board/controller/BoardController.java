@@ -1,7 +1,9 @@
 package com.codingrecipe.board.controller;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.CommentDTO;
 import com.codingrecipe.board.service.BoardService;
+import com.codingrecipe.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("/board") //대표 매핑 주소
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm(){
@@ -44,6 +47,10 @@ public class BoardController {
         // 게시글 데이터를 가져와서 detail.html에 출력하도록 한다.
         boardService.updateHits(id); // 서비스클래스의 업데이트힛츠를 호출하고
         BoardDTO boardDTO = boardService.findById(id); // findby객체생성후 dto로 가져오고
+        /* 댓글 목록 가져오기 */
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
+
         model.addAttribute("board", boardDTO); // 객체를 board라는 파라미터에 담아서
         model.addAttribute("page", pageable.getPageNumber()); // 페이지에 담아서 (해당페이지)
         return "detail"; // 디테일로 호출

@@ -1,10 +1,10 @@
 package com.codingrecipe.board.entity;
 
 import com.codingrecipe.board.dto.BoardDTO;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +41,9 @@ public class BoardEntity extends BaseEntity {
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
     public static BoardEntity toSaveEntity(BoardDTO boardDTO) {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
@@ -54,16 +57,17 @@ public class BoardEntity extends BaseEntity {
 
 
     public static BoardEntity toUpdateEntity(BoardDTO boardDTO) {
-        BoardEntity boardEntity = new BoardEntity();
-        // 아이디가 있어야만 업데이트 쿼리가 전달가능
-        boardEntity.setId(boardDTO.getId());
-        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
-        boardEntity.setBoardPass(boardDTO.getBoardPass());
-        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
-        boardEntity.setBoardContents(boardDTO.getBoardContents());
-        boardEntity.setBoardHits(0);
-        return boardEntity;
+            BoardEntity boardEntity = new BoardEntity();
+            // 아이디가 있어야만 업데이트 쿼리가 전달가능
+            boardEntity.setId(boardDTO.getId());
+            boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+            boardEntity.setBoardPass(boardDTO.getBoardPass());
+            boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+            boardEntity.setBoardContents(boardDTO.getBoardContents());
+            boardEntity.setBoardHits(boardDTO.getBoardHits());
+            return boardEntity;
     }
+
 
     public static BoardEntity toSaveFileEntity(BoardDTO boardDTO) {
         BoardEntity boardEntity = new BoardEntity();
@@ -75,7 +79,4 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setFileAttached(1); // 값을 0으로 줌으로써 file이 있다는 표시
         return boardEntity;
     }
-
-
-
 }
