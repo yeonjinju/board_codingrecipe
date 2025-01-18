@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이리의 맥 이야기</title>
+  <!-- 부트스트랩 CSS 링크 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style="background-color: black;">
+<div class="hero text-center text-white py-5">
+  <h1 class="display-4">이리의 맥 이야기</h1>
+  <h2>컴온!!!!</h2>
+</div>
+<div class="container my-5">
+  <form onsubmit="addPost(); return false;">
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요...">
+    </div>
+    <div class="form-group">
+      <label for="content">내용</label>
+      <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요..." rows="8"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">게시글 작성</button>
+  </form>
+  <div id="posts"></div>
+  <nav>
+    <ul class="pagination justify-content-center my-5">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">이전</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">다음</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<!-- 부트스트랩 JS 링크 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function getPosts() {
+    var posts = localStorage.getItem("posts");
+    if (posts) {
+      document.getElementById("posts").innerHTML = posts;
+    }
+  }
+
+  function savePosts() {
+    var postsDiv = document.getElementById("posts");
+    localStorage.setItem("posts", postsDiv.innerHTML);
+  }
+
+  function addPost() {
+    var title = document.getElementById("title").value;
+    var content = document.getElementById("content").value;
+
+    var postDiv = document.createElement("div");
+    postDiv.className = "card my-3";
+    postDiv.innerHTML = `
+                <div class="card-body">
+                    <h3 class="card-title">${title}</h3>
+                    <p class="card-text">${content}</p>
+                    <img class="card-img-bottom" src="images/3.webp" alt="이미지">
+                    <button type="button" class="btn btn-danger my-3">삭제</button>
+                </div>
+            `;
+
+    postDiv.querySelector(".btn-danger").addEventListener("click", function() {
+      postDiv.remove();
+      savePosts();
+    });
+
+    var postsDiv = document.getElementById("posts");
+    postsDiv.insertBefore(postDiv, postsDiv.firstChild);
+
+    savePosts();
+
+    document.getElementById("title").value = "";
+    document.getElementById("content").value = "";
+  }
+</script>
+</body>
+</html>
+출처: https://i-ri.tistory.com/31 [이리의 맥 이야기:티스토리]

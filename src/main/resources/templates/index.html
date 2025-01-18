@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Title</title>
 </head>
 <body>
     <h2>Hello Spring cooootot</h2>
     <button onclick="saveReq()">글작성</button>
-    <a href="/board/save">글작성(링크)</a>
     <button onclick="listReq()">글목록</button>
     <button onclick="pagingReq()">페이징목록</button>
 </body>
@@ -21,5 +22,6 @@
     const pagingReq = () => {
         location.href = "/board/paging";
     }
+
 </script>
 </html>
